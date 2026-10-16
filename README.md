@@ -1,9 +1,10 @@
 # python-alg
 
-def solve(row):
-    if row == 8:
-        return True
 
+    def solve(row):
+       if row == 8:
+           return True
+        
     for col in range(8):
         if col not in cols and row-col not in diag1 and row+col not in diag2:
             board[row] = col
@@ -19,21 +20,17 @@ def solve(row):
             diag2.remove(row+col)
 
     return False
-
-board = [-1] * 8
-cols, diag1, diag2 = set(), set(), set()
-
-solve(0)
-
-for r in range(8):
+    board = [-1] * 8
+    cols, diag1, diag2 = set(), set(), set()
+    solve(0)
+    for r in range(8):
     print(" ".join("Q" if board[r] == c else "." for c in range(8)))
 
 
+#water-jug
 
-
-from collections import deque
-
-def water_jug(X, Y, target):
+    from collections import deque
+    def water_jug(X, Y, target):
     q = deque([(0, 0)])
     visited = set()
 
