@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Angular Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <h2>Angular Calculator</h2>
+
+    <input type="number" ng-model="a" placeholder="First Number">
+    <br><br>
+
+    <input type="number" ng-model="b" placeholder="Second Number">
+    <br><br>
+
+    <button ng-click="calc('+')">+</button>
+    <button ng-click="calc('-')">-</button>
+    <button ng-click="calc('*')">*</button>
+    <button ng-click="calc('/')">/</button>
+
+    <h3>Result: {{result}}</h3>
+
+    <script>
+        var app = angular.module("myApp", []);
+
+        app.controller("myCtrl", function($scope) {
+
+            $scope.calc = function(op) {
+                if (op == '+')
+                    $scope.result = $scope.a + $scope.b;
+
+                else if (op == '-')
+                    $scope.result = $scope.a - $scope.b;
+
+                else if (op == '*')
+                    $scope.result = $scope.a * $scope.b;
+
+                else if (op == '/')
+                    $scope.result = $scope.b != 0 ?
+                        $scope.a / $scope.b : "Cannot divide by zero";
+            };
+
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microblogging App</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function App() {
+    const [post, setPost] = React.useState("");
+    const [posts, setPosts] = React.useState([]);
+
+    function addPost() {
+        if (post.trim() !== "") {
+            setPosts([...posts, post]);
+            setPost("");
+        }
+    }
+
+    function deletePost(i) {
+        setPosts(posts.filter((p, index) => index !== i));
+    }
+
+    return (
+        <div>
+            <h2>Microblogging App</h2>
+
+            <textarea
+                value={post}
+                onChange={(e) => setPost(e.target.value)}
+                placeholder="What's happening?"
+            />
+
+            <br/><br/>
+
+            <button onClick={addPost}>Publish</button>
+
+            <h3>Recent Posts</h3>
+
+            {posts.map((p, i) => (
+                <div key={i}>
+                    <p>{p}</p>
+                    <button onClick={() => deletePost(i)}>
+                        Delete
+                    </button>
+                    <hr/>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root"))
+    .render(<App />);
+
+</script>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+function App() {
+    const products = [
+        {name: "Laptop", price: 50000},
+        {name: "Mobile", price: 20000},
+        {name: "Headphones", price: 2000}
+    ];
+
+    const [cart, setCart] = React.useState([]);
+
+    function add(p) {
+        setCart([...cart, p]);
+    }
+
+    function remove(i) {
+        setCart(cart.filter((p, index) => index !== i));
+    }
+
+    let total = cart.reduce((sum, p) => sum + p.price, 0);
+
+    return (
+        <div>
+            <h2>Shopping Cart</h2>
+
+            <h3>Products</h3>
+
+            {products.map((p, i) => (
+                <p key={i}>
+                    {p.name} - Rs.{p.price}
+                    <button onClick={() => add(p)}>Add</button>
+                </p>
+            ))}
+
+            <h3>My Cart</h3>
+
+            {cart.map((p, i) => (
+                <p key={i}>
+                    {p.name} - Rs.{p.price}
+                    <button onClick={() => remove(i)}>Remove</button>
+                </p>
+            ))}
+
+            <h3>Total: Rs.{total}</h3>
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root"))
+    .render(<App />);
+
+</script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To Do List</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            border: 1px solid #973d3d;
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <h2>To Do List</h2>
+
+    <input type="text" ng-model="task" placeholder="Enter a task">
+    <button ng-click="add()">Add</button>
+
+    <ul>
+        <li ng-repeat="t in tasks">
+            {{t}}
+            <button ng-click="remove($index)">Delete</button>
+        </li>
+    </ul>
+
+    <script>
+        var app = angular.module("myApp", []);
+
+        app.controller("myCtrl", function($scope) {
+
+            $scope.tasks = [];
+
+            $scope.add = function() {
+                if ($scope.task) {
+                    $scope.tasks.push($scope.task);
+                    $scope.task = "";
+                }
+            };
+
+            $scope.remove = function(i) {
+                $scope.tasks.splice(i, 1);
+            };
+
+        });
+    </script>
+
+</body>
+</html>
+
+
